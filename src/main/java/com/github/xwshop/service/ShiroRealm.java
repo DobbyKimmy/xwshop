@@ -17,7 +17,7 @@ public class ShiroRealm extends AuthorizingRealm {
     @Autowired
     public ShiroRealm(VerificationCodeCheckService verificationCodeCheckService) {
         this.verificationCodeCheckService = verificationCodeCheckService;
-        this.setCredentialsMatcher((token, info) -> new String((char[])token.getCredentials()).equals(info.getCredentials()));
+        this.setCredentialsMatcher((token, info) -> new String((char[]) token.getCredentials()).equals(info.getCredentials()));
     }
 
     @Override
@@ -29,6 +29,6 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String tel = (String) token.getPrincipal();
         String correctCode = verificationCodeCheckService.getCorrectCode(tel);
-        return new SimpleAuthenticationInfo(tel,correctCode,getName());
+        return new SimpleAuthenticationInfo(tel, correctCode, getName());
     }
 }

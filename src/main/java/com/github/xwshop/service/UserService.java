@@ -24,7 +24,7 @@ public class UserService {
         user.setUpdatedAt(new Date());
         try {
             userDao.insertUser(user);
-        }catch(PersistenceException e){
+        } catch (PersistenceException e) {
             return userDao.getUserByTel(tel);
         }
         return user;

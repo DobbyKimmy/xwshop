@@ -20,20 +20,21 @@ public class AuthController {
     }
 
     @PostMapping("/code")
-    public void code(@RequestBody TelAndCode telAndCode){
+    public void code(@RequestBody TelAndCode telAndCode) {
         authService.sendVerificationCode(telAndCode.getTel());
     }
+
     @PostMapping("/login")
-    public void login(@RequestBody TelAndCode telAndCode){
+    public void login(@RequestBody TelAndCode telAndCode) {
         // shiro 需要一个token来完成登录
-        UsernamePasswordToken token  = new UsernamePasswordToken(telAndCode.getTel(),
+        UsernamePasswordToken token = new UsernamePasswordToken(telAndCode.getTel(),
                 telAndCode.getCode());
         // cookie
         token.setRememberMe(true);
         SecurityUtils.getSubject().login(token);
     }
 
-    public static class TelAndCode{
+    public static class TelAndCode {
         private String tel;
         private String code;
 

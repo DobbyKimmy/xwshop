@@ -3,7 +3,7 @@ package com.github.xwshop.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MockSmsCodeService implements SmsCodeService{
+public class MockSmsCodeService implements SmsCodeService {
     // 假设这是一个验证码服务
     @Override
     public String sendSmsCode(String tel) {
