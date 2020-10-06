@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3307/xwshop?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    driverClassName: com.mysql.cj.jdbc.Driver
+    # kebab case driver-class-name
+    # snake case driver_class_name (python)
+    # camel case driverClassName (Java)
+mybatis:
+  config-location: classpath:db/mybatis/config.xml
