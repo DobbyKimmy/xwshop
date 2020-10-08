@@ -1,15 +1,15 @@
 package com.github.xwshop.controller;
 
+import com.github.xwshop.context.UserContext;
+import com.github.xwshop.entity.LoginResponse;
 import com.github.xwshop.service.AuthService;
 import com.github.xwshop.service.TelVerificationService;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -45,6 +45,26 @@ public class AuthController {
         SecurityUtils.getSubject().login(token);
     }
 
+    @PostMapping("/logout")
+    public void logout() {
+        SecurityUtils.getSubject().logout();
+    }
+
+    @SuppressFBWarnings("DLS_DEAD_LOCAL_STORE")
+    @GetMapping("/status")
+    public void loginStatus(HttpServletResponse response) {
+        response.setContentType("application/json");
+        if (UserContext.getCurrentUser() == null) {
+            LoginResponse loginResponse = LoginResponse.notLogin();
+            response.setHeader("login", "false");
+            // return loginResponse;
+        } else {
+            LoginResponse loginResponse = LoginResponse.login(UserContext.getCurrentUser());
+            response.setHeader("login", "true");
+            // return loginResponse;
+        }
+    }
+
     public static class TelAndCode {
         private String tel;
         private String code;
@@ -53,6 +73,7 @@ public class AuthController {
             this.tel = tel;
             this.code = code;
         }
+
         public String getTel() {
             return tel;
         }
